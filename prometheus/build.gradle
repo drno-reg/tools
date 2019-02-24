@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+}
+
+group 'prometheus'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+//create a single Jar with all dependencies
+task NodeExporterSQLite(type: Jar) {
+    group 'prometheus'
+    dependencies {
+        compile('org.apache.hive:hive-jdbc:2.0.0')
+        compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.11.2'
+        compile group: 'com.esotericsoftware.yamlbeans', name: 'yamlbeans', version: '1.06'
+        compile group: 'io.prometheus', name: 'simpleclient', version: '0.5.0'
+        compile group: 'io.prometheus', name: 'simpleclient_hotspot', version: '0.5.0'
+        compile group: 'io.prometheus', name: 'simpleclient_httpserver', version: '0.5.0'
+        compile group: 'io.prometheus', name: 'simpleclient_vertx', version: '0.5.0'
+        compile group: 'io.vertx', name: 'vertx-core', version: '3.0.0'
+        compile group: 'io.vertx', name: 'vertx-web', version: '3.0.0'
+    }
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'ru.tests.NodeExporterEmptyGauge'
+    }
+    exclude("META-INF/*.LIST","META-INF/*.SF","META-INF/*.DSA","META-INF/*.RSA")
+    baseName = project.name
+//    baseName = project.name + '-Hive'
+//    from('src/main/java') {
+//        include 'resources/*'
+//    }
+    from {
+        configurations.runtime.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    with jar
+}
