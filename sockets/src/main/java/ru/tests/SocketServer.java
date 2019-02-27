@@ -6,7 +6,7 @@ import java.net.*;
 public class SocketServer extends Thread
 {
     // открываемый порт сервера
-    private static final int port   = 6666;
+//    private static final int port   = 6666;
     private String TEMPL_MSG =
             "The client '%d' sent me message : \n\t";
     private String TEMPL_CONN =
@@ -72,6 +72,7 @@ public class SocketServer extends Thread
     //---------------------------------------------------------
     public static void main(String[] ar)
     {
+        int port = Integer.parseInt(ar[0]);
         ServerSocket srvSocket = null;
         try {
             try {
