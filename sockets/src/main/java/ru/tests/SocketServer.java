@@ -72,14 +72,15 @@ public class SocketServer extends Thread
     //---------------------------------------------------------
     public static void main(String[] ar)
     {
-        int port = Integer.parseInt(ar[0]);
+        String hostname = ar[0];
+        int port = Integer.parseInt(ar[1]);
         ServerSocket srvSocket = null;
         try {
             try {
                 int i = 0; // Счётчик подключений
                 // Подключение сокета к localhost
                 InetAddress ia;
-                ia = InetAddress.getByName("localhost");
+                ia = InetAddress.getByName(hostname);
                 srvSocket = new ServerSocket(port, 0, ia);
 
                 System.out.println("Server started\n\n");
